@@ -30,6 +30,8 @@ fail_count=0
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURES="${SCRIPT_DIR}/fixtures"
 GAME=./game
+WORK_DIR=$(mktemp -d)
+trap 'rm -rf "$WORK_DIR"' EXIT
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -164,6 +166,35 @@ run_tests() {
         | "$GAME" "${FIXTURES}/questions.txt" 2>&1)
     check_contains "walk away at Q11 (banked £32,000)" \
         "$output" "You walk away with £32,000."
+
+    # test 5: a file that is not a question file must be refused, not crash.
+    # This is a regression test. load_questions() used to ask "does this line
+    # have five fields?" by testing fields[4] -- an index past the end of any
+    # shorter array, so the answer was whatever heap memory happened to sit
+    # there. Feeding it a *text* file usually read NULL and looked fine;
+    # feeding it a binary read garbage, passed the check, and segfaulted on
+    # the NULL field right after. So the fixture here is the game's own
+    # binary, which is exactly what a mistyped argument lands on.
+    "$GAME" "$GAME" >/dev/null 2>&1
+    local status=$?
+    if [ "$status" -ge 128 ]; then
+        fail "a non-question file is refused, not fatal" \
+            "clean exit" "killed by signal $((status - 128))"
+    else
+        pass "a non-question file is refused, not fatal"
+    fi
+
+    # ...and the same for a line with too few fields, the in-bounds case of
+    # the same mistake.
+    printf 'q|a|b|c\nq|a|b|c\n' > "$WORK_DIR/short.txt"
+    "$GAME" "$WORK_DIR/short.txt" >/dev/null 2>&1
+    status=$?
+    if [ "$status" -ge 128 ]; then
+        fail "a short question line is skipped, not fatal" \
+            "clean exit" "killed by signal $((status - 128))"
+    else
+        pass "a short question line is skipped, not fatal"
+    fi
 }
 
 # ── summary ───────────────────────────────────────────────────────────────────

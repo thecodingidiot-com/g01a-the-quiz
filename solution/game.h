@@ -10,6 +10,10 @@
 
 # define LEVELS  15
 
+/* A question line is text|A|B|C|D, then an optional answer index and an
+** optional hint. Five is the minimum that can produce a question. */
+# define FIELDS_REQUIRED 5
+
 typedef struct {
     char    *text;
     char    *opts[4];
