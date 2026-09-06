@@ -100,7 +100,7 @@ preflight() {
         ok=0
     fi
     if [[ ! -d "$FIXTURES" ]]; then
-        echo "error: fixtures/ not found — keep the g01a-the-developer clone alongside your working directory" >&2
+        echo "error: fixtures/ not found — keep the g01a-the-quiz clone alongside your working directory" >&2
         ok=0
     fi
     if [[ $ok -eq 0 ]]; then
