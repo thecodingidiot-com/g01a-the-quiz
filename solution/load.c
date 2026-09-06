@@ -31,6 +31,37 @@ static void decode_pipes(char **fields)
     }
 }
 
+/*
+** tciu_split returns a NULL-terminated array, and NULL-terminated is the
+** whole of what it promises -- it does not report a length. So the only
+** way to learn how many fields a line produced is to walk to the
+** terminator. Asking "are there at least five?" by testing fields[4]
+** reads past the end of any shorter array, which is undefined behaviour:
+** on a line with one field the array holds two pointers, and fields[4] is
+** sixteen bytes beyond it.
+*/
+static int  count_fields(char **fields)
+{
+    int i;
+
+    i = 0;
+    while (fields[i])
+        i++;
+    return (i);
+}
+
+/* Both exits from the loop below need this: the array AND every string
+** in it. Freeing only the array leaks each field. */
+static void free_fields(char **fields)
+{
+    int i;
+
+    i = 0;
+    while (fields[i])
+        free(fields[i++]);
+    free(fields);
+}
+
 question_t  **load_questions(const char *path, int *count)
 {
     int         fd;
@@ -40,7 +71,6 @@ question_t  **load_questions(const char *path, int *count)
     question_t  **questions;
     question_t  *q;
     int         capacity;
-    int         i;
 
     fd = open(path, O_RDONLY);
     if (fd < 0) {
@@ -57,9 +87,10 @@ question_t  **load_questions(const char *path, int *count)
         encode_pipes(line);
         fields = tciu_split(line, '|');
         free(line);
-        if (!fields || !fields[0] || !fields[4]) {
-            if (fields)
-                free(fields);
+        if (!fields)
+            continue;
+        if (count_fields(fields) < FIELDS_REQUIRED) {
+            free_fields(fields);
             continue;
         }
         decode_pipes(fields);
@@ -78,10 +109,7 @@ question_t  **load_questions(const char *path, int *count)
                      ? tci_strdup(fields[6])
                      : NULL;
         questions[(*count)++] = q;
-        i = 0;
-        while (fields[i])
-            free(fields[i++]);
-        free(fields);
+        free_fields(fields);
     }
     close(fd);
     return (questions);
