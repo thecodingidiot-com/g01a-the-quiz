@@ -1,4 +1,4 @@
-# g01a — Who Wants to Be a Game Developer?
+# g01a — The Quiz
 
 Build a terminal quiz game using `tci_printf` as the rendering engine — prize
 ladder, three lifelines, fifteen questions, one million pounds.

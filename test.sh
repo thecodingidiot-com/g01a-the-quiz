@@ -1,5 +1,5 @@
 #!/bin/bash
-# g01a — Who Wants to Be a Game Developer? / test.sh
+# g01a — The Quiz / test.sh
 #
 # Tests the terminal quiz game.
 # Copy this file into your working directory alongside libtci.a,
@@ -39,7 +39,7 @@ hr() {
 
 banner() {
     hr
-    echo "  g01a — Who Wants to Be a Game Developer? / test.sh"
+    echo "  g01a — The Quiz / test.sh"
     hr
 }
 
