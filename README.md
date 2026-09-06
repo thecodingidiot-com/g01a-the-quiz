@@ -41,9 +41,9 @@ them as a prize-ladder quiz. The full project brief is in the chapter's
 # Start from your c03 working directory (contains libtci.a and libtciutil.a)
 cp -r ~/c03-practice ~/g01a-practice
 cd ~/g01a-practice
-# Add game.h, main.c, load.c, display.c, game.c, and questions.txt
+# Add game.h, main.c, load.c, display.c, and game.c
 make re
-./game questions.txt
+./game ../fixtures/questions.txt
 ```
 
 The `solution/` directory contains the complete reference implementation
@@ -64,7 +64,7 @@ Four test cases run sequentially:
 4. **Walk away** — walks at question 11 after passing the £32,000 safe level;
    expects `£32,000` as the banked amount.
 
-The tester uses `fixtures/questions.txt` — 15 questions where option A is
+The tester uses `fixtures/test-questions.txt` — 15 questions where option A is
 always correct, so results are deterministic regardless of shuffle order.
 
 ---
