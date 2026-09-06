@@ -1,0 +1,15 @@
+Which command lists files and directories in a Unix terminal?|ls|dir|list|show|0|The answer is A: ls.
+What does git add prepare a file for?|The next commit|Deletion from the repository|A remote push|Branch creation|0|The answer is A: the next commit.
+In C, what keyword exits a loop immediately?|break|exit|return|stop|0|The answer is A: break.
+What C header provides printf?|<stdio.h>|<stdlib.h>|<string.h>|<math.h>|0|The answer is A: <stdio.h>.
+What does tci_printf use to determine where to write output?|A file descriptor|A FILE * pointer|A buffer size|A format string|0|The answer is A: a file descriptor.
+What Unix file descriptor number is stderr?|2|0|1|3|0|The answer is A: 2.
+What does git log --oneline display?|All commits, one line each|The most recent commit only|Staged changes|The diff of the last commit|0|The answer is A: all commits, one line each.
+On the 6502, which instruction loads an immediate value into the accumulator?|LDA|MOV A, #|LD A|LOAD|0|The answer is A: LDA.
+What does tci_getline return when EOF is reached?|NULL|An empty string|0|-1|0|The answer is A: NULL.
+What is the fourth argument to qsort?|A comparison function|An element index|The array size|A sort key|0|The answer is A: a comparison function.
+Which id Software game released in 1993 popularised BSP trees for real-time rendering?|DOOM|Quake|Duke Nukem 3D|Heretic|0|The answer is A: DOOM.
+What does fork() return in the child process on success?|0|The parent's PID|A negative number|1|0|The answer is A: 0.
+What flag tells gcc to include debugging symbols?|-g|-Wall|-O2|-std=c99|0|The answer is A: -g.
+On the 6502, how many cycles does INC $00 (zero-page increment) take?|5|2|3|4|0|The answer is A: 5 cycles.
+In C99, what is the behaviour when comparing two pointers to unrelated objects?|The behaviour is undefined|The result is zero|The result is implementation-defined|The compiler rejects it|0|The answer is A: undefined behaviour.

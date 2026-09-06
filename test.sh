@@ -135,23 +135,23 @@ run_tests() {
     echo ""
 
     # test 1: full win — correct answers to all 15 questions
-    # fixtures/questions.txt has answer index 0 for every question,
+    # fixtures/test-questions.txt has answer index 0 for every question,
     # so 'A' is always correct regardless of shuffle order.
     output=$(printf 'A\nA\nA\nA\nA\nA\nA\nA\nA\nA\nA\nA\nA\nA\nA\n' \
-        | "$GAME" "${FIXTURES}/questions.txt" 2>&1)
+        | "$GAME" "${FIXTURES}/test-questions.txt" 2>&1)
     check_contains "full win (15 correct answers)" \
         "$output" "Congratulations"
 
     # test 2: early loss — wrong answer on question 3 (before the first safe level)
     output=$(printf 'A\nA\nB\n' \
-        | "$GAME" "${FIXTURES}/questions.txt" 2>&1)
+        | "$GAME" "${FIXTURES}/test-questions.txt" 2>&1)
     check_contains "early loss (wrong at Q3, no safe level reached)" \
         "$output" "You leave with £0."
 
     # test 3: 50:50 lifeline — use lifeline '1' on question 8, then answer correctly
     # input: 7 A's (Q1–7), then '1' + 'A' for Q8 (lifeline then answer), then 7 A's (Q9–15)
     output=$(printf 'A\nA\nA\nA\nA\nA\nA\n1\nA\nA\nA\nA\nA\nA\nA\nA\n' \
-        | "$GAME" "${FIXTURES}/questions.txt" 2>&1)
+        | "$GAME" "${FIXTURES}/test-questions.txt" 2>&1)
     check_contains "50:50 lifeline applied on Q8" \
         "$output" "50:50 — two wrong answers removed."
     check_contains "game won after using 50:50" \
@@ -161,7 +161,7 @@ run_tests() {
     # Q10 (index 9) has SAFE[9]=1, so safe_level becomes 9 after Q10.
     # Walking at Q11 (level=10) → display_walkaway(10) → PRIZES[9] = "£32,000".
     output=$(printf 'A\nA\nA\nA\nA\nA\nA\nA\nA\nA\nW\n' \
-        | "$GAME" "${FIXTURES}/questions.txt" 2>&1)
+        | "$GAME" "${FIXTURES}/test-questions.txt" 2>&1)
     check_contains "walk away at Q11 (banked £32,000)" \
         "$output" "You walk away with £32,000."
 }
